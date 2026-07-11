@@ -145,7 +145,7 @@ class VehicleControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = "USER")
+    @WithMockUser(roles = "ADMIN")
     void shouldRestockVehicleSuccessfully() throws Exception {
         // Arrange
         Vehicle updatedVehicle = new Vehicle("1", "Toyota", "Camry", "Sedan", 30000.00, 10);
