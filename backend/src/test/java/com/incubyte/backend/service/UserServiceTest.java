@@ -40,4 +40,19 @@ class UserServiceTest {
         // Act & Assert
         assertThrows(IllegalArgumentException.class, () -> userService.register(request));
     }
+
+    @Test
+    void shouldRejectInvalidEmail() {
+        // Arrange
+        RegisterRequest request = new RegisterRequest(
+                "Jay",
+                "invalid-email",
+                "Password@123"
+        );
+
+        UserService userService = new UserService();
+
+        // Act & Assert
+        assertThrows(IllegalArgumentException.class, () -> userService.register(request));
+    }
 }
