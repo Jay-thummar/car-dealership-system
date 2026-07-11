@@ -29,6 +29,7 @@ describe('Dashboard Component', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     localStorage.clear();
+    window.confirm = vi.fn().mockImplementation(() => true);
   });
 
   test('should redirect to login if token is missing', () => {
