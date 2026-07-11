@@ -118,6 +118,47 @@ class VehicleControllerTest {
     }
 
     @Test
+    @WithMockUser(roles = "USER")
+    void shouldPurchaseVehicleSuccessfully() throws Exception {
+        // Arrange
+        Vehicle updatedVehicle = new Vehicle("1", "Toyota", "Camry", "Sedan", 30000.00, 3);
+        when(vehicleService.purchaseVehicle("1", 2)).thenReturn(updatedVehicle);
+
+        // Act & Assert
+        mockMvc.perform(post("/api/vehicles/1/purchase")
+                        .param("quantity", "2"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.quantity").value(3));
+    }
+
+    @Test
+    @WithMockUser(roles = "USER")
+    void shouldRejectPurchaseIfStockInsufficient() throws Exception {
+        // Arrange
+        when(vehicleService.purchaseVehicle("1", 6)).thenThrow(new IllegalArgumentException("Insufficient stock"));
+
+        // Act & Assert
+        mockMvc.perform(post("/api/vehicles/1/purchase")
+                        .param("quantity", "6"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.error").value("Insufficient stock"));
+    }
+
+    @Test
+    @WithMockUser(roles = "USER")
+    void shouldRestockVehicleSuccessfully() throws Exception {
+        // Arrange
+        Vehicle updatedVehicle = new Vehicle("1", "Toyota", "Camry", "Sedan", 30000.00, 10);
+        when(vehicleService.restockVehicle("1", 5)).thenReturn(updatedVehicle);
+
+        // Act & Assert
+        mockMvc.perform(post("/api/vehicles/1/restock")
+                        .param("quantity", "5"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.quantity").value(10));
+    }
+
+    @Test
     @WithMockUser(roles = "ADMIN")
     void shouldDeleteVehicleSuccessfully() throws Exception {
         // Act & Assert
