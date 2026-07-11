@@ -70,4 +70,19 @@ class UserServiceTest {
         // Act & Assert
         assertThrows(IllegalArgumentException.class, () -> userService.register(request));
     }
+
+    @Test
+    void shouldRejectWeakPassword() {
+        // Arrange
+        RegisterRequest request = new RegisterRequest(
+                "Jay",
+                "jay@gmail.com",
+                "Pass123" // 7 characters, minimum required is 8
+        );
+
+        UserService userService = new UserService();
+
+        // Act & Assert
+        assertThrows(IllegalArgumentException.class, () -> userService.register(request));
+    }
 }
