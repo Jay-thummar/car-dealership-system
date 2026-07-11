@@ -159,6 +159,37 @@ class VehicleControllerTest {
     }
 
     @Test
+    @WithMockUser(roles = "USER")
+    void shouldRejectInvalidVehicleOnAdd() throws Exception {
+        // Arrange
+        Vehicle invalidVehicle = new Vehicle("1", "Toyota", "Camry", "Sedan", -500.00, 5);
+
+        // Act & Assert
+        mockMvc.perform(post("/api/vehicles")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(invalidVehicle)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @WithMockUser(roles = "USER")
+    void shouldRejectPurchaseWithNegativeQuantity() throws Exception {
+        // Act & Assert
+        mockMvc.perform(post("/api/vehicles/1/purchase")
+                        .param("quantity", "-2"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @WithMockUser(roles = "ADMIN")
+    void shouldRejectRestockWithNegativeQuantity() throws Exception {
+        // Act & Assert
+        mockMvc.perform(post("/api/vehicles/1/restock")
+                        .param("quantity", "-5"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
     @WithMockUser(roles = "ADMIN")
     void shouldDeleteVehicleSuccessfully() throws Exception {
         // Act & Assert

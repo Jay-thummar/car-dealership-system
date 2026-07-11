@@ -2,6 +2,7 @@ package com.incubyte.backend.controller;
 
 import com.incubyte.backend.model.Vehicle;
 import com.incubyte.backend.service.VehicleService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,7 +27,7 @@ public class VehicleController {
     }
 
     @PostMapping
-    public ResponseEntity<Vehicle> addVehicle(@RequestBody Vehicle vehicle) {
+    public ResponseEntity<Vehicle> addVehicle(@Valid @RequestBody Vehicle vehicle) {
         Vehicle savedVehicle = vehicleService.addVehicle(vehicle);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedVehicle);
     }
@@ -56,7 +57,7 @@ public class VehicleController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Vehicle> updateVehicle(@PathVariable String id, @RequestBody Vehicle vehicle) {
+    public ResponseEntity<Vehicle> updateVehicle(@PathVariable String id, @Valid @RequestBody Vehicle vehicle) {
         Vehicle updated = vehicleService.updateVehicle(id, vehicle);
         return ResponseEntity.ok(updated);
     }

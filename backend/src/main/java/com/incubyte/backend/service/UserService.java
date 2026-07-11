@@ -38,7 +38,11 @@ public class UserService {
         }
 
         String encryptedPassword = passwordEncoder.encode(request.getPassword());
-        User user = new User(null, request.getName(), request.getEmail(), encryptedPassword);
+        java.util.List<String> userRoles = request.getRoles();
+        if (userRoles == null || userRoles.isEmpty()) {
+            userRoles = java.util.List.of("ROLE_USER");
+        }
+        User user = new User(null, request.getName(), request.getEmail(), encryptedPassword, userRoles);
         userRepository.save(user);
 
         return true;

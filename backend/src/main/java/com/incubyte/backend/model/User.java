@@ -19,4 +19,13 @@ public class User {
     private String name;
     private String email;
     private String password;
+    private java.util.List<String> roles;
+
+    public User(String id, String name, String email, String password) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.roles = java.util.List.of("ROLE_USER");
+    }
 }

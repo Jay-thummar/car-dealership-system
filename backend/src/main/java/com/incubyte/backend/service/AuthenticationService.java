@@ -44,7 +44,9 @@ public class AuthenticationService {
         UserDetails userDetails = org.springframework.security.core.userdetails.User.builder()
                 .username(user.getEmail())
                 .password(user.getPassword())
-                .authorities(List.of(new SimpleGrantedAuthority("ROLE_USER")))
+                .authorities(user.getRoles().stream()
+                        .map(SimpleGrantedAuthority::new)
+                        .collect(java.util.stream.Collectors.toList()))
                 .build();
 
         return jwtService.generateToken(userDetails);
