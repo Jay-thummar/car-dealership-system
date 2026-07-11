@@ -145,6 +145,8 @@ class UserServiceTest {
 
         // Assert
         assertTrue(result);
-        verify(userRepository).save(any(User.class));
+        ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
+        verify(userRepository).save(userCaptor.capture());
+        assertEquals(java.util.List.of("ROLE_USER"), userCaptor.getValue().getRoles());
     }
 }
