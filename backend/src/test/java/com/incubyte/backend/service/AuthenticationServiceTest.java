@@ -22,7 +22,8 @@ class AuthenticationServiceTest {
     void setUp() {
         userRepository = mock(UserRepository.class);
         passwordEncoder = mock(PasswordEncoder.class);
-        authenticationService = new AuthenticationService(userRepository, passwordEncoder);
+        JwtService jwtService = mock(JwtService.class);
+        authenticationService = new AuthenticationService(userRepository, passwordEncoder, jwtService);
     }
 
     @Test
