@@ -49,6 +49,12 @@ public class VehicleController {
         return ResponseEntity.ok(vehicles);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Vehicle> getVehicleById(@PathVariable String id) {
+        Vehicle vehicle = vehicleService.getVehicleById(id);
+        return ResponseEntity.ok(vehicle);
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<Vehicle> updateVehicle(@PathVariable String id, @RequestBody Vehicle vehicle) {
         Vehicle updated = vehicleService.updateVehicle(id, vehicle);

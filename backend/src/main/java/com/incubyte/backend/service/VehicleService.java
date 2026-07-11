@@ -64,6 +64,11 @@ public class VehicleService {
         return vehicleRepository.save(existing);
     }
 
+    public Vehicle getVehicleById(String id) {
+        return vehicleRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Vehicle not found"));
+    }
+
     public void deleteVehicle(String id) {
         if (!vehicleRepository.existsById(id)) {
             throw new IllegalArgumentException("Vehicle not found");
