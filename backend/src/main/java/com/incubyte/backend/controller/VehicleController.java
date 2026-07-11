@@ -61,6 +61,18 @@ public class VehicleController {
         return ResponseEntity.ok(updated);
     }
 
+    @PostMapping("/{id}/purchase")
+    public ResponseEntity<Vehicle> purchaseVehicle(@PathVariable String id, @RequestParam(defaultValue = "1") int quantity) {
+        Vehicle updated = vehicleService.purchaseVehicle(id, quantity);
+        return ResponseEntity.ok(updated);
+    }
+
+    @PostMapping("/{id}/restock")
+    public ResponseEntity<Vehicle> restockVehicle(@PathVariable String id, @RequestParam int quantity) {
+        Vehicle updated = vehicleService.restockVehicle(id, quantity);
+        return ResponseEntity.ok(updated);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteVehicle(@PathVariable String id) {
         vehicleService.deleteVehicle(id);

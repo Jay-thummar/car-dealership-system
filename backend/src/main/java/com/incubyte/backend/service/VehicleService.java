@@ -69,6 +69,26 @@ public class VehicleService {
                 .orElseThrow(() -> new IllegalArgumentException("Vehicle not found"));
     }
 
+    public Vehicle purchaseVehicle(String id, int quantity) {
+        Vehicle vehicle = vehicleRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Vehicle not found"));
+
+        if (vehicle.getQuantity() < quantity) {
+            throw new IllegalArgumentException("Insufficient stock");
+        }
+
+        vehicle.setQuantity(vehicle.getQuantity() - quantity);
+        return vehicleRepository.save(vehicle);
+    }
+
+    public Vehicle restockVehicle(String id, int quantity) {
+        Vehicle vehicle = vehicleRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Vehicle not found"));
+
+        vehicle.setQuantity(vehicle.getQuantity() + quantity);
+        return vehicleRepository.save(vehicle);
+    }
+
     public void deleteVehicle(String id) {
         if (!vehicleRepository.existsById(id)) {
             throw new IllegalArgumentException("Vehicle not found");
