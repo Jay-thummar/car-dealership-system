@@ -70,6 +70,9 @@ public class VehicleService {
     }
 
     public Vehicle purchaseVehicle(String id, int quantity) {
+        if (quantity <= 0) {
+            throw new IllegalArgumentException("Quantity must be positive");
+        }
         Vehicle vehicle = vehicleRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Vehicle not found"));
 
@@ -82,6 +85,9 @@ public class VehicleService {
     }
 
     public Vehicle restockVehicle(String id, int quantity) {
+        if (quantity <= 0) {
+            throw new IllegalArgumentException("Quantity must be positive");
+        }
         Vehicle vehicle = vehicleRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Vehicle not found"));
 

@@ -3,8 +3,10 @@ package com.incubyte.backend.controller;
 import com.incubyte.backend.model.Vehicle;
 import com.incubyte.backend.service.VehicleService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +20,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/vehicles")
+@Validated
 public class VehicleController {
 
     private final VehicleService vehicleService;
@@ -63,13 +66,13 @@ public class VehicleController {
     }
 
     @PostMapping("/{id}/purchase")
-    public ResponseEntity<Vehicle> purchaseVehicle(@PathVariable String id, @RequestParam(defaultValue = "1") int quantity) {
+    public ResponseEntity<Vehicle> purchaseVehicle(@PathVariable String id, @RequestParam(defaultValue = "1") @Min(value = 1, message = "Quantity must be positive") int quantity) {
         Vehicle updated = vehicleService.purchaseVehicle(id, quantity);
         return ResponseEntity.ok(updated);
     }
 
     @PostMapping("/{id}/restock")
-    public ResponseEntity<Vehicle> restockVehicle(@PathVariable String id, @RequestParam int quantity) {
+    public ResponseEntity<Vehicle> restockVehicle(@PathVariable String id, @RequestParam @Min(value = 1, message = "Quantity must be positive") int quantity) {
         Vehicle updated = vehicleService.restockVehicle(id, quantity);
         return ResponseEntity.ok(updated);
     }
