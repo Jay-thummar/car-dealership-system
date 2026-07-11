@@ -14,6 +14,9 @@ public class UserService {
         if (!EMAIL_PATTERN.matcher(request.getEmail()).matches()) {
             throw new IllegalArgumentException("Invalid email format");
         }
+        if (request.getPassword() == null || request.getPassword().isBlank()) {
+            throw new IllegalArgumentException("Password is mandatory");
+        }
         return true;
     }
 }
