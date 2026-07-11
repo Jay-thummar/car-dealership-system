@@ -15,9 +15,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -65,5 +69,46 @@ class VehicleControllerTest {
                 .andExpect(jsonPath("$.length()").value(2))
                 .andExpect(jsonPath("$[0].id").value("1"))
                 .andExpect(jsonPath("$[1].id").value("2"));
+    }
+
+    @Test
+    @WithMockUser(roles = "USER")
+    void shouldSearchVehiclesSuccessfully() throws Exception {
+        // Arrange
+        Vehicle vehicle = new Vehicle("1", "Toyota", "Camry", "Sedan", 30000.00, 5);
+        when(vehicleService.searchVehicles("Toyota", null, null, null, null)).thenReturn(List.of(vehicle));
+
+        // Act & Assert
+        mockMvc.perform(get("/api/vehicles/search")
+                        .param("make", "Toyota"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(1))
+                .andExpect(jsonPath("$[0].make").value("Toyota"));
+    }
+
+    @Test
+    @WithMockUser(roles = "USER")
+    void shouldUpdateVehicleSuccessfully() throws Exception {
+        // Arrange
+        Vehicle updatedVehicle = new Vehicle("1", "Toyota", "Camry", "Sedan", 32000.00, 4);
+        when(vehicleService.updateVehicle(eq("1"), any(Vehicle.class))).thenReturn(updatedVehicle);
+
+        // Act & Assert
+        mockMvc.perform(put("/api/vehicles/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(updatedVehicle)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.price").value(32000.00))
+                .andExpect(jsonPath("$.quantity").value(4));
+    }
+
+    @Test
+    @WithMockUser(roles = "ADMIN")
+    void shouldDeleteVehicleSuccessfully() throws Exception {
+        // Act & Assert
+        mockMvc.perform(delete("/api/vehicles/1"))
+                .andExpect(status().isNoContent());
+
+        verify(vehicleService).deleteVehicle("1");
     }
 }
