@@ -103,6 +103,21 @@ class VehicleControllerTest {
     }
 
     @Test
+    @WithMockUser(roles = "USER")
+    void shouldGetVehicleByIdSuccessfully() throws Exception {
+        // Arrange
+        Vehicle vehicle = new Vehicle("1", "Toyota", "Camry", "Sedan", 30000.00, 5);
+        when(vehicleService.getVehicleById("1")).thenReturn(vehicle);
+
+        // Act & Assert
+        mockMvc.perform(get("/api/vehicles/1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value("1"))
+                .andExpect(jsonPath("$.make").value("Toyota"))
+                .andExpect(jsonPath("$.model").value("Camry"));
+    }
+
+    @Test
     @WithMockUser(roles = "ADMIN")
     void shouldDeleteVehicleSuccessfully() throws Exception {
         // Act & Assert
