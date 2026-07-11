@@ -4,6 +4,7 @@ import com.incubyte.backend.dto.RegisterRequest;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class UserServiceTest {
 
@@ -23,5 +24,20 @@ class UserServiceTest {
 
         // Assert
         assertTrue(result);
+    }
+
+    @Test
+    void shouldRejectEmptyEmail() {
+        // Arrange
+        RegisterRequest request = new RegisterRequest(
+                "Jay",
+                "",
+                "Password@123"
+        );
+
+        UserService userService = new UserService();
+
+        // Act & Assert
+        assertThrows(IllegalArgumentException.class, () -> userService.register(request));
     }
 }
