@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { API_BASE } from '../config';
 import './Dashboard.css';
-
-const API_BASE = 'http://localhost:8080/api';
 
 const decodeJwt = (token) => {
   try {
