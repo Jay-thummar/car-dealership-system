@@ -40,7 +40,7 @@ class SecurityTest {
 
         mockMvc.perform(get("/api/vehicles")
                         .header("Authorization", "Bearer " + token))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isOk());
     }
 
     @Test
