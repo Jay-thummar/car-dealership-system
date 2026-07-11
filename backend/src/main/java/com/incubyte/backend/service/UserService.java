@@ -17,6 +17,9 @@ public class UserService {
         if (request.getPassword() == null || request.getPassword().isBlank()) {
             throw new IllegalArgumentException("Password is mandatory");
         }
+        if (request.getPassword().length() < 8) {
+            throw new IllegalArgumentException("Password must be at least 8 characters long");
+        }
         return true;
     }
 }
