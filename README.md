@@ -78,7 +78,7 @@ This project requires a connection to a MongoDB database. For cloud hosting, it 
     ```
 2.  During deployment (e.g., on Render), make sure to configure the `MONGODB_URI` environment variable with your MongoDB Atlas connection string:
     ```
-    mongodb+srv://rajeshthummar1978_db_user:Ru9OI6P2TXl15dAj@cluster0.evwxrak.mongodb.net/car-dealership?retryWrites=true&w=majority
+    mongodb+srv://<username>:<password>@<cluster-url>/car-dealership?retryWrites=true&w=majority
     ```
 
 ### Startup Data Initialization
