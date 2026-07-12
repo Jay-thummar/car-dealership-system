@@ -1,7 +1,5 @@
 # Car Dealership Inventory System
 
-![Dashboard Preview](./dashboard-preview.png)
-
 🔗 **[Live Demo Website](https://car-dealership-system.vercel.app/login)**
 
 A production-quality full-stack Car Dealership Inventory System built with a Spring Boot REST backend, a MongoDB Atlas cloud database, and a responsive React Single Page Application (SPA) styled with custom glassmorphism Vanilla CSS. The project is built following Clean Architecture, SOLID design principles, and Test-Driven Development (TDD).
